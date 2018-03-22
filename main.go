@@ -3,11 +3,11 @@ package main
 import (
 	"vincent.com/golangginrest/router"
 
-	"vincent.com/golangginrest/db"
+	"vincent.com/golangginrest/database"
 )
 
 func init() {
-	db.InitDB()
+	database.InitDB()
 }
 
 func main() {
