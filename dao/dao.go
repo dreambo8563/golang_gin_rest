@@ -15,9 +15,11 @@ import (
 )
 
 //DB instantce singleton
-var DB *gorm.DB
-var err error
-var log = logger.Log()
+var (
+	DB  *gorm.DB
+	err error
+	log = logger.Log()
+)
 
 // Init - connect db and AutoMigrate
 func init() {
