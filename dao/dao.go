@@ -4,6 +4,8 @@ import (
 	"strconv"
 	"strings"
 
+	"vincent.com/golangginrest/utils/logger"
+
 	"github.com/jinzhu/gorm"
 	"vincent.com/golangginrest/config"
 	"vincent.com/golangginrest/model"
@@ -15,6 +17,7 @@ import (
 //DB instantce singleton
 var DB *gorm.DB
 var err error
+var log = logger.Log()
 
 // Init - connect db and AutoMigrate
 func init() {
@@ -24,7 +27,7 @@ func init() {
 	DB, err = gorm.Open("mysql", dialects)
 
 	if err != nil {
-		panic("failed to connect database")
+		log.Panicln("connected to db failed", err)
 	}
 	DB.AutoMigrate(&model.TodoModel{})
 }
