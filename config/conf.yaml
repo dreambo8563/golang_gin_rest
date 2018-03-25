@@ -1,0 +1,10 @@
+---
+mysql:
+  host: localhost
+  port: 3306
+  dbname: test
+  username: root
+  password: my-secret-pw
+  MaxIdelConns: 50
+  maxOpenConns: 1000
+  connMaxLifetime: 5

@@ -5,11 +5,11 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"vincent.com/golangginrest/database"
+	"vincent.com/golangginrest/dao"
 	"vincent.com/golangginrest/model"
 )
 
-var db = database.DB
+var db = dao.DB
 
 // CreateTodo add a new todo
 func CreateTodo(c *gin.Context) {

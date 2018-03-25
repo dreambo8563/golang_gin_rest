@@ -2,14 +2,12 @@ package main
 
 import (
 	"vincent.com/golangginrest/router"
-
-	"vincent.com/golangginrest/database"
 )
 
-func init() {
-	database.InitDB()
-}
+// func init() {
+// 	dao.Init()
+// }
 
 func main() {
-	router.InitRouter()
+	router.Init()
 }
