@@ -27,6 +27,8 @@ func init() {
 	dialects := dialectsString()
 
 	DB, err = gorm.Open("mysql", dialects)
+	DB.LogMode(true)
+	DB.SetLogger(log)
 
 	if err != nil {
 		log.Panicln("connected to db failed", err)
@@ -46,5 +48,6 @@ func dialectsString() string {
 	b.WriteString(strconv.Itoa(config.Mysql.Port))
 	b.WriteString(")/")
 	b.WriteString(config.Mysql.Dbname)
+	b.WriteString("?charset=utf8&parseTime=True&loc=Local")
 	return b.String()
 }

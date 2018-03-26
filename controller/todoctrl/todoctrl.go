@@ -28,11 +28,19 @@ type Response struct {
 // @Success 201 {object} todoctrl.Response
 // @Router /todo [post]
 func CreateTodo(c *gin.Context) {
-	completed, _ := strconv.Atoi(c.PostForm("completed"))
-	todo := model.TodoModel{Title: c.PostForm("title"), Completed: completed}
-	db.Save(&todo)
-	// c.JSON(http.StatusCreated, gin.H{"status": http.StatusCreated, "message": "Todo item created successfully!", "resourceId": todo.ID})
-	c.JSON(http.StatusCreated, Response{Status: http.StatusCreated, Message: "Todo item created successfully!", ResourceID: todo.ID})
+	// completed, _ := strconv.Atoi(c.PostForm("completed"))
+	// todo := model.TodoModel{Title: c.PostForm("title"), Completed: completed}
+	var todo model.TodoModel
+	err := c.BindJSON(&todo)
+	if err == nil {
+		db.Save(&todo)
+		// c.JSON(http.StatusCreated, gin.H{"status": http.StatusCreated, "message": "Todo item created successfully!", "resourceId": todo.ID})
+		c.JSON(http.StatusCreated, Response{Status: http.StatusCreated, Message: "Todo item created successfully!", ResourceID: todo.ID})
+	} else {
+		c.JSON(http.StatusBadRequest, Response{
+			Status: http.StatusBadRequest, Message: err.Error(), ResourceID: 5})
+	}
+
 }
 
 // FetchAllTodo fetch all todos

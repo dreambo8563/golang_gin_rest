@@ -1,1 +1,0 @@
-{"level":"panic","msg":"connected to db failed dial TCP: unknown network TCP","project":"golang_gin_rest","time":"2018-03-26T14:09:01+08:00"}
