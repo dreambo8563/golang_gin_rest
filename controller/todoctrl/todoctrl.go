@@ -11,12 +11,28 @@ import (
 
 var db = dao.DB
 
+// Response is the common struct to cient
+type Response struct {
+	Status     int    `json:"status"  example:"201"`
+	Message    string `json:"message"  example:"created sucessfully"`
+	ResourceID uint   `json:"resourceId"  example:"1"`
+}
+
 // CreateTodo add a new todo
+// @Summary create a todo item
+// @Description create a todo item with title
+// @ID create-to-do
+// @Accept  json
+// @Produce  json
+// @Param  item body model.TodoModel true "new todo item"
+// @Success 201 {object} todoctrl.Response
+// @Router /todo [post]
 func CreateTodo(c *gin.Context) {
 	completed, _ := strconv.Atoi(c.PostForm("completed"))
 	todo := model.TodoModel{Title: c.PostForm("title"), Completed: completed}
 	db.Save(&todo)
-	c.JSON(http.StatusCreated, gin.H{"status": http.StatusCreated, "message": "Todo item created successfully!", "resourceId": todo.ID})
+	// c.JSON(http.StatusCreated, gin.H{"status": http.StatusCreated, "message": "Todo item created successfully!", "resourceId": todo.ID})
+	c.JSON(http.StatusCreated, Response{Status: http.StatusCreated, Message: "Todo item created successfully!", ResourceID: todo.ID})
 }
 
 // FetchAllTodo fetch all todos

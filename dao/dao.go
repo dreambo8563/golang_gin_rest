@@ -40,7 +40,7 @@ func dialectsString() string {
 	b.WriteString(config.Mysql.Username)
 	b.WriteString(":")
 	b.WriteString(config.Mysql.Password)
-	b.WriteString("@TCP(")
+	b.WriteString("@tcp(")
 	b.WriteString(config.Mysql.Host)
 	b.WriteString(":")
 	b.WriteString(strconv.Itoa(config.Mysql.Port))
