@@ -9,7 +9,7 @@ import (
 	"vincent.com/golangginrest/model"
 )
 
-var db = dao.DB
+var db = dao.DB()
 
 // Response is the common struct to cient
 type Response struct {

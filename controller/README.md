@@ -1,0 +1,6 @@
+controller 控制层
+
+业务逻辑的主题部分,可以引入多个service对逻辑进行处理
+也可直接面对view层.
+也可是多model 和server的组合
+但控制层不直接和DB交互
