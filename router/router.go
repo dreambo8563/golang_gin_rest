@@ -1,6 +1,8 @@
 package router
 
 import (
+	"path"
+
 	"github.com/gin-gonic/gin"
 	// import the generated doc package
 	_ "vincent.com/golangginrest/docs"
@@ -15,7 +17,13 @@ func Init() {
 	todoGroup(router, v1Prefix)
 	// SPA fallback router
 	router.NoRoute(func(c *gin.Context) {
-		c.File("./public/index.html")
+		dir, file := path.Split(c.Request.RequestURI)
+		if file == "" {
+			c.File("./public/index.html")
+		} else {
+			c.File("./public" + path.Join(dir, file))
+		}
+
 	})
 	// router.Run()
 
