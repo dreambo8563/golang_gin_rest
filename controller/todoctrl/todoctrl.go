@@ -4,12 +4,14 @@ import (
 	"net/http"
 	"strconv"
 
+	"vincent.com/golangginrest/service/persistdata"
+
 	"github.com/gin-gonic/gin"
-	"vincent.com/golangginrest/dao"
+
 	"vincent.com/golangginrest/model"
 )
 
-var db = dao.DB()
+var db = mysql.DB
 
 // Response is the common struct to cient
 type Response struct {

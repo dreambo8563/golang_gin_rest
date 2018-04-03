@@ -8,7 +8,6 @@ import (
 
 	"github.com/jinzhu/gorm"
 	"vincent.com/golangginrest/config"
-	"vincent.com/golangginrest/model"
 
 	// import to init mysql driver
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -33,7 +32,10 @@ func init() {
 	if err != nil {
 		log.Panicln("connected to db failed", err)
 	}
-	DB.AutoMigrate(&model.TodoModel{})
+	// gorm.DefaultTableNameHandler = func(db *gorm.DB, defaultTableName string) string {
+	// 	return "test_" + defaultTableName
+	// }
+	// DB.AutoMigrate(&model.TodoModel{}, &model.UserModel{})
 }
 
 func dialectsString() string {
@@ -50,4 +52,9 @@ func dialectsString() string {
 	b.WriteString(config.Mysql.Dbname)
 	b.WriteString("?charset=utf8&parseTime=True&loc=Local")
 	return b.String()
+}
+
+func migrate(values ...interface{}) *gorm.DB {
+	DB.AutoMigrate(values...)
+	return DB
 }

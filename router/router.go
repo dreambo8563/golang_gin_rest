@@ -15,6 +15,7 @@ func Init() {
 	v1Prefix := "/api/v1"
 	swaggerGroup(router)
 	todoGroup(router, v1Prefix)
+	authGroup(router, v1Prefix)
 	// SPA fallback router
 	router.NoRoute(func(c *gin.Context) {
 		dir, file := path.Split(c.Request.RequestURI)
