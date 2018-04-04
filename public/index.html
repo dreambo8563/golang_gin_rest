@@ -3,11 +3,120 @@
 <head>
     <title>Https Test</title>
     <link rel="stylesheet" href="test.css">
+    <meta viewport="initial-scale=1, maximum-scale=1,user-scalable=no">
     <script src="test.js"></script>
 </head>
 
 <body>
     <h1>Welcome, Ginner!</h1>
+    <div class="dropzone">
+        <div class="draggable" draggable="true" ondragstart="event.dataTransfer.setData('text/plain',null)">
+            K
+        </div>
+    </div>
+    <div class="dropzone">
+        <div class="draggable" draggable="true" ondragstart="event.dataTransfer.setData('text/plain',null)">
+            J
+        </div>
+    </div>
+    <div class="dropzone">
+        <div class="draggable" draggable="true" ondragstart="event.dataTransfer.setData('text/plain',null)">
+            Q
+        </div>
+    </div>
+    <div class="dropzone"></div>
+    <div class="dropzone"></div>
+    <div class="dropzone"></div>
+
+    <style>
+        .draggable {
+            width: 80%;
+            height: 200px;
+            text-align: center;
+            background: white;
+        }
+
+        .dropzone {
+            width: 80%;
+            height: 200px;
+            background: blueviolet;
+            margin-bottom: 10px;
+            padding: 10px;
+        }
+
+        html,
+        body {
+            overflow: hidden;
+        }
+    </style>
+
+    <script>
+        var dragged;
+        // document.addEventListener("touchmove", function (e) {
+        //     e.preventDefault()
+        //     return false
+        // })
+
+        /* events fired on the draggable target */
+        document.addEventListener("drag", function (event) {
+            console.log("drag")
+        }, false);
+
+        document.addEventListener("dragstart", function (event) {
+            // store a ref. on the dragged elem
+            dragged = event.target;
+            console.log("drag start")
+            // make it half transparent
+            event.target.style.opacity = .5;
+        }, false);
+
+        document.addEventListener("dragend", function (event) {
+            // reset the transparency
+            console.log("end", event.target.innerText)
+            console.log("end drop target", event.srcElement)
+            event.target.style.opacity = "";
+        }, false);
+
+        /* events fired on the drop targets */
+        document.addEventListener("dragover", function (event) {
+            // prevent default to allow drop
+            // console.log(event.target)
+            console.log("over")
+            event.preventDefault();
+        }, false);
+
+        document.addEventListener("dragenter", function (event) {
+            // highlight potential drop target when the draggable element enters it
+
+            console.log("enter", event.srcElement.innerText)
+            if (event.target.className == "dropzone") {
+                event.target.style.background = "purple";
+            }
+
+        }, false);
+
+        document.addEventListener("dragleave", function (event) {
+            // reset background of potential drop target when the draggable element leaves it
+            console.log("leave")
+            if (event.target.className == "dropzone") {
+                event.target.style.background = "";
+            }
+
+        }, false);
+
+        document.addEventListener("drop", function (event) {
+            // prevent default action (open as link for some elements)
+            event.preventDefault();
+            console.log("drop")
+            // move dragged elem to the selected drop target
+            if (event.target.className == "dropzone") {
+                event.target.style.background = "";
+                dragged.parentNode.removeChild(dragged);
+                event.target.appendChild(dragged);
+            }
+
+        }, false);
+    </script>
 </body>
 
 </html>

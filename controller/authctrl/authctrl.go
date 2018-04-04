@@ -35,6 +35,7 @@ func Login(c *gin.Context) {
 	// check user exist
 	user, exist := model.FindByInfo(user.Phone, user.Password)
 	if !exist {
+		log.Infoln("user not exist")
 		response.Response(c, nil, constants.ErrorEnums["UserNotExist"], 0)
 		return
 	}
@@ -42,10 +43,12 @@ func Login(c *gin.Context) {
 	token, err := jwt.New(fmt.Sprint(user.ID))
 	// log.Infoln(token, err.Error())
 	if err != nil {
+		log.Infoln("TokenGenFailed")
 		response.Response(c, nil, constants.ErrorEnums["TokenGenFailed"], 0)
 		return
 	}
 	c.SetCookie("token", token, 3600, "/", "", true, true)
+	log.Infoln("token", token)
 	response.Response(c, gin.H{
 		"token": token,
 	}, constants.ErrorEnums["empty"], http.StatusOK)

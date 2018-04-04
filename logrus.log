@@ -1,0 +1,7 @@
+{"level":"info","msg":"sql/go/src/vincent.com/golangginrest/model/user.go:294.611169msSELECT id FROM `profiles`  WHERE (`profiles`.`phone` = ?) AND (`profiles`.`password` = ?)[1210922218032 2222222] 0","project":"golang_gin_rest","time":"2018-04-04T04:04:36Z"}
+{"level":"info","msg":"user not exist","project":"golang_gin_rest","time":"2018-04-04T04:04:36Z"}
+{"level":"info","msg":"sql/go/src/vincent.com/golangginrest/model/user.go:29891.623µsSELECT id FROM `profiles`  WHERE (`profiles`.`phone` = ?) AND (`profiles`.`password` = ?)[1210922218032 2222222] 0","project":"golang_gin_rest","time":"2018-04-04T04:05:41Z"}
+{"level":"info","msg":"user not exist","project":"golang_gin_rest","time":"2018-04-04T04:05:41Z"}
+2] 0","project":"golang_gin_rest","time":"2018-04-04T04:00:49Z"}
+`phone` varchar(13) NOT NULL  DEFAULT '',`password` varchar(16) NOT NULL  DEFAULT '' , PRIMARY KEY (`id`))[] 0","project":"golang_gin_rest","time":"2018-04-04T03:53:47Z"}
+{"level":"info","msg":"sql/go/src/vincent.com/golangginrest/model/migrate.go:414.345327msCREATE UNIQUE INDEX uix_profiles_phone ON `profiles`(`phone`) [] 0","project":"golang_gin_rest","time":"2018-04-04T03:53:47Z"}
