@@ -14,7 +14,7 @@ var (
 
 // UserClaims is the type contain userID and standardClaims
 type UserClaims struct {
-	UserID string `json:"userId"`
+	UserID string `json:"userID"`
 	jwt.StandardClaims
 }
 
@@ -36,7 +36,7 @@ func Config(secret string, issuer string) {
 
 // New return the generated token with default alg and set/default config
 func New(userID string) (string, error) {
-	tokenExp := time.Now().Add(time.Hour * 1).Unix()
+	tokenExp := time.Now().Add(time.Second * 30).Unix()
 	claims := UserClaims{
 		userID,
 		jwt.StandardClaims{
@@ -52,7 +52,7 @@ func New(userID string) (string, error) {
 }
 
 // Parse - parse the tokenString into token struct
-func Parse(tokenString string) (jwt.MapClaims, error) {
+func Parse(tokenString string) (jwt.MapClaims, bool, error) {
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
@@ -63,14 +63,23 @@ func Parse(tokenString string) (jwt.MapClaims, error) {
 		return []byte(secretString), nil
 	})
 	// actually we will get err only when the token expire
-	if err != nil {
-		fmt.Println(err.Error())
-		return nil, err
+	if token.Valid {
+		if claims, ok := token.Claims.(jwt.MapClaims); ok {
+			return claims, false, nil
+		}
+	} else if ve, ok := err.(*jwt.ValidationError); ok {
+		if ve.Errors&jwt.ValidationErrorMalformed != 0 {
+			return nil, false, fmt.Errorf("That's not even a token")
+		} else if ve.Errors&(jwt.ValidationErrorExpired|jwt.ValidationErrorNotValidYet) != 0 {
+			// Token is either expired or not active yet
+			if claims, ok := token.Claims.(jwt.MapClaims); ok {
+				return claims, true, nil
+			}
+			// return nil, true, fmt.Errorf("the token parse error")
+		}
+	} else {
+		return nil, false, fmt.Errorf("Couldn't handle this token")
 	}
 
-	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		fmt.Println(claims)
-		return claims, nil
-	}
-	return nil, fmt.Errorf("the token is invalid")
+	return nil, false, fmt.Errorf("Couldn't handle this token")
 }

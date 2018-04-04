@@ -2,8 +2,8 @@ package constants
 
 //WrappedError is the common struct with err info
 type WrappedError struct {
-	code int
-	msg  string
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
 }
 
 // ErrorEnums contains all the error type will response
@@ -20,5 +20,8 @@ var ErrorEnums = map[string]WrappedError{
 	},
 	"UserCreatedFailed": WrappedError{
 		-103, "User record created failed",
+	},
+	"TokenExpire": WrappedError{
+		-104, "Token expired, please refresh",
 	},
 }

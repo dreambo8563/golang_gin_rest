@@ -17,7 +17,7 @@ var log = logger.Log()
 
 type (
 	tokenResp struct {
-		token string
+		Token string `json:"token"`
 	}
 )
 
@@ -49,9 +49,7 @@ func Login(c *gin.Context) {
 	}
 	c.SetCookie("token", token, 3600, "/", "", true, true)
 	log.Infoln("token", token)
-	response.Response(c, gin.H{
-		"token": token,
-	}, constants.ErrorEnums["empty"], http.StatusOK)
+	response.Response(c, tokenResp{token}, constants.ErrorEnums["empty"], http.StatusOK)
 }
 
 // Register will create the user record
@@ -79,7 +77,17 @@ func Register(c *gin.Context) {
 
 	c.SetCookie("token", token, 3600, "/", "", true, true)
 
-	response.Response(c, gin.H{
-		"token": token,
-	}, constants.ErrorEnums["empty"], http.StatusOK)
+	response.Response(c, tokenResp{token}, constants.ErrorEnums["empty"], http.StatusOK)
+}
+
+// Test is the handle to test jwt middleware
+func Test(c *gin.Context) {
+	userID, exist := c.Get("userID")
+	if exist {
+		log.Info("userID: ", userID)
+	} else {
+		log.Panic("AuthMiddleware fail")
+		return
+	}
+	response.Response(c, nil, constants.ErrorEnums["empty"], http.StatusOK)
 }

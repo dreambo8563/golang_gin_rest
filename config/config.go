@@ -27,7 +27,14 @@ type (
 )
 
 func init() {
-	viper.SetConfigName("conf")
+
+	env := viper.Get("GO_ENV")
+	if env == "production" {
+		viper.SetConfigName("conf")
+	} else {
+		viper.SetConfigName("conf_dev")
+	}
+
 	viper.AddConfigPath("config")
 
 	if err := viper.ReadInConfig(); err != nil {
