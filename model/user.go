@@ -1,7 +1,14 @@
 package model
 
 import (
+	"time"
+
 	"github.com/jinzhu/gorm"
+	"vincent.com/golangginrest/service/cache"
+)
+
+var (
+	redis = cache.Client()
 )
 
 type (
@@ -25,8 +32,15 @@ func (user *UserModel) New() error {
 
 // FindByInfo - will check whether the user exist by the phone and password info
 func FindByInfo(phone, password string) (UserModel, bool) {
+	id, err := redis.Get(phone + ":" + password).Uint64()
 	userInfo := UserModel{}
-	err := db.Select("id").Where(&UserModel{Phone: phone, Password: password}).Find(&userInfo).Error
+	if err == nil {
+		userInfo.ID = uint(id)
+		log.Infoln("from redis", id)
+		return userInfo, true
+	}
+
+	err = db.Select("id").Where(&UserModel{Phone: phone, Password: password}).Find(&userInfo).Error
 	if gorm.IsRecordNotFoundError(err) {
 		return userInfo, false
 	}
@@ -34,5 +48,6 @@ func FindByInfo(phone, password string) (UserModel, bool) {
 		log.Errorln(err.Error())
 		return userInfo, false
 	}
+	go redis.Set(phone+":"+password, userInfo.ID, time.Second*10)
 	return userInfo, true
 }

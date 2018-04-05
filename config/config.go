@@ -12,6 +12,8 @@ var item Configuration
 type (
 	Configuration struct {
 		Mysql mysqlConfig
+		Redis redisConfig
+		Jwt   jwtConfig
 	}
 
 	mysqlConfig struct {
@@ -23,6 +25,16 @@ type (
 		MaxIdelConns    int
 		MaxOpenConns    int
 		ConnMaxLifetime int
+	}
+
+	redisConfig struct {
+		Host     string
+		Port     int
+		Password string
+	}
+	jwtConfig struct {
+		Secret string
+		Expire int
 	}
 )
 

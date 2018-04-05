@@ -4,12 +4,18 @@ import (
 	"fmt"
 	"time"
 
+	"vincent.com/golangginrest/service/cache"
+
+	"vincent.com/golangginrest/config"
+
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
 var (
 	secretString []byte
 	issuerString string
+	jwtConfig    = config.Item().Jwt
+	redis        = cache.Client()
 )
 
 // UserClaims is the type contain userID and standardClaims
@@ -20,7 +26,8 @@ type UserClaims struct {
 
 func init() {
 	// default values
-	secretString = []byte("secret")
+
+	secretString = []byte(jwtConfig.Secret)
 	issuerString = "jwt"
 }
 
@@ -36,7 +43,7 @@ func Config(secret string, issuer string) {
 
 // New return the generated token with default alg and set/default config
 func New(userID string) (string, error) {
-	tokenExp := time.Now().Add(time.Second * 30).Unix()
+	tokenExp := time.Now().Unix() + int64(jwtConfig.Expire)
 	claims := UserClaims{
 		userID,
 		jwt.StandardClaims{

@@ -52,3 +52,6 @@
 [[constraint]]
 name = "github.com/gin-gonic/gin"
 branch="master"
+[[constraint]]
+  name = "github.com/go-redis/redis"
+  version = "6.10.2"
