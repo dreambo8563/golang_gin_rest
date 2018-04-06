@@ -47,7 +47,7 @@ func Login(c *gin.Context) {
 		response.Response(c, nil, constants.ErrorEnums["TokenGenFailed"], 0)
 		return
 	}
-	c.SetCookie("token", token, 3600, "/", "", true, true)
+	jwt.SaveToken(c, token)
 	log.Infoln("token", token)
 	response.Response(c, tokenResp{token}, constants.ErrorEnums["empty"], http.StatusOK)
 }
@@ -74,10 +74,30 @@ func Register(c *gin.Context) {
 		response.Response(c, nil, constants.ErrorEnums["TokenGenFailed"], 0)
 		return
 	}
-
-	c.SetCookie("token", token, 3600, "/", "", true, true)
-
+	jwt.SaveToken(c, token)
 	response.Response(c, tokenResp{token}, constants.ErrorEnums["empty"], http.StatusOK)
+}
+
+// Refresh will parse the expired token and return a fresh one
+func Refresh(c *gin.Context) {
+	token, err := jwt.GetToken(c)
+	if err != nil {
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
+	}
+	claims, exp, err := jwt.Parse(token)
+	if exp {
+		userID := claims["userID"].(string)
+		token, err = jwt.New(userID)
+		if err != nil {
+			response.Response(c, nil, constants.ErrorEnums["TokenGenFailed"], 0)
+			return
+		}
+		jwt.SaveToken(c, token)
+		response.Response(c, tokenResp{token}, constants.ErrorEnums["empty"], http.StatusOK)
+		return
+	}
+	c.AbortWithStatus(http.StatusUnauthorized)
 }
 
 // Test is the handle to test jwt middleware

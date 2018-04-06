@@ -16,7 +16,7 @@ var log = logger.Log()
 func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-		token, err := c.Cookie("token")
+		token, err := jwt.GetToken(c)
 		if err != nil {
 			c.AbortWithStatus(http.StatusUnauthorized)
 			return

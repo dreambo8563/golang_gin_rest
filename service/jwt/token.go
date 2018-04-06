@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/gin-gonic/gin"
+
 	"vincent.com/golangginrest/service/cache"
 
 	"vincent.com/golangginrest/config"
@@ -89,4 +91,15 @@ func Parse(tokenString string) (jwt.MapClaims, bool, error) {
 	}
 
 	return nil, false, fmt.Errorf("Couldn't handle this token")
+}
+
+// SaveToken will be your customized method to storage token
+// here we will set it in cookie for client
+func SaveToken(c *gin.Context, token string) {
+	c.SetCookie("token", token, jwtConfig.Expire, "/", "", true, true)
+}
+
+// GetToken is the customized method to get token from request of client
+func GetToken(c *gin.Context) (token string, err error) {
+	return c.Cookie("token")
 }
