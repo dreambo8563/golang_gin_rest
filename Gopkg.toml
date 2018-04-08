@@ -25,33 +25,31 @@
 #   unused-packages = true
 
 
-[prune]
-  go-tests = true
-  unused-packages = true
+[[constraint]]
+  name = "github.com/dgrijalva/jwt-go"
+  version = "3.2.0"
 
 [[constraint]]
-  name = "github.com/spf13/viper"
-  version = "1.0.2"
+  branch="master"
+  name = "github.com/gin-gonic/gin"
+  # version = "1.2.0"
+
+[[constraint]]
+  name = "github.com/go-redis/redis"
+  version = "6.10.2"
+
+[[constraint]]
+  name = "github.com/jinzhu/gorm"
+  version = "1.9.1"
 
 [[constraint]]
   name = "github.com/sirupsen/logrus"
   version = "1.0.5"
 
 [[constraint]]
-  name = "github.com/swaggo/swag"
-  version = "1.1.1"
+  name = "github.com/spf13/viper"
+  version = "1.0.2"
 
-[[constraint]]
-  branch = "master"
-  name = "github.com/swaggo/gin-swagger"
-
-[[constraint]]
-  name = "github.com/dgrijalva/jwt-go"
-  version = "3.2.0"
-  
-[[constraint]]
-name = "github.com/gin-gonic/gin"
-branch="master"
-[[constraint]]
-  name = "github.com/go-redis/redis"
-  version = "6.10.2"
+[prune]
+  go-tests = true
+  unused-packages = true
