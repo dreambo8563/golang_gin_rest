@@ -10,7 +10,7 @@ services:
     working_dir: /go/src/vincent.com/golangginrest
     volumes:
       - .:/go/src/vincent.com/golangginrest
-    command: go run main.go
+    command: go build main.go
     links:
       - gomysql
       - goreids
