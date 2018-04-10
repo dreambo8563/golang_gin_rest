@@ -1,19 +1,5 @@
 version: "2"
 services:    
-  apiServer: 
-    image: golang:1.10
-    restart: always
-    ports:
-      - "8080:8080"
-    environment:
-      - GO_ENV=production
-    working_dir: /go/src/vincent.com/golangginrest
-    volumes:
-      - .:/go/src/vincent.com/golangginrest
-    command: ./main
-    links:
-      - gomysql
-      - goreids
   gomysql:
     image: mysql
     restart: always
@@ -26,3 +12,5 @@ services:
   goreids:
     image: redis
     restart: always
+    ports:
+      - "6379:6379"
