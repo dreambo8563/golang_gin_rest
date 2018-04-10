@@ -8,3 +8,10 @@ mysql:
   MaxIdelConns: 50
   maxOpenConns: 1000
   connMaxLifetime: 5
+redis:
+  host: goreids
+  port: 6379
+  password:
+jwt:
+  secret: secret
+  expire: 60

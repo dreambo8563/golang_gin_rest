@@ -14,9 +14,10 @@ services:
   gomysql:
     image: mysql
     restart: always
-    ports:
-      - "3306:3306"
     volumes:
       - ./backup:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=my-secret-pw
+  goreids:
+    image: redis
+    restart: always
