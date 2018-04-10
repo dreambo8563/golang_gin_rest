@@ -1,7 +1,8 @@
 version: '2.3'
 services:    
   apiServer: 
-    image: golang:1.10
+    build: ./dir
+    image: my-go
     restart: always
     ports:
       - "8080:8080"
@@ -14,6 +15,8 @@ services:
   gomysql:
     image: mysql
     restart: always
+    ports:
+      - "3306:3306"
     volumes:
       - ./backup:/var/lib/mysql
     environment:
