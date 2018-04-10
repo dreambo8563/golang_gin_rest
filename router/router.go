@@ -1,6 +1,7 @@
 package router
 
 import (
+	"fmt"
 	"path"
 	"path/filepath"
 
@@ -10,6 +11,7 @@ import (
 // Init - router collection and controller dispatch
 func Init() {
 	// default config include the recover and logger middleware
+	fmt.Println("router Init")
 	router := gin.Default()
 	// swaggerGroup(router)
 	v1Prefix := "/api/v1"
@@ -26,7 +28,7 @@ func Init() {
 		}
 
 	})
-	// router.Run()
+	router.Run()
 
-	router.RunTLS(":8080", "./cert/server.pem", "./cert/server.key")
+	// router.RunTLS(":8080", "./cert/server.pem", "./cert/server.key")
 }
