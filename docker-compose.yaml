@@ -1,8 +1,7 @@
-version: '2.3'
+version: "2"
 services:    
   apiServer: 
-    build: ./dir
-    image: my-go
+    image: golang:1.10
     restart: always
     ports:
       - "8080:8080"
@@ -10,8 +9,11 @@ services:
       - GO_ENV=production
     working_dir: /go/src/vincent.com/golangginrest
     volumes:
-        - ./:/go/src/vincent.com/golangginrest
-    command: "go run main.go"
+      - .:/go/src/vincent.com/golangginrest
+    command: go run main.go
+    links:
+      - gomysql
+      - goreids
   gomysql:
     image: mysql
     restart: always
