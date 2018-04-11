@@ -39,7 +39,7 @@ type (
 )
 
 func init() {
-
+	viper.AutomaticEnv()
 	env := viper.Get("GO_ENV")
 	if env == "production" {
 		viper.SetConfigName("conf")

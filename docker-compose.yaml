@@ -1,5 +1,18 @@
-version: "2"
+version: '2.3'
 services:    
+  apiServer: 
+    build: .
+    image: mygo
+    restart: always
+    ports:
+      - "8080:8080"
+    working_dir: /go/src/vincent.com/golangginrest
+    volumes:
+      - ./:/go/src/vincent.com/golangginrest
+    links:
+      - gomysql
+      - goredis
+    command: "go run -v main.go"
   gomysql:
     image: mysql
     restart: always
@@ -9,7 +22,7 @@ services:
       - ./backup:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=my-secret-pw
-  goreids:
+  goredis:
     image: redis
     restart: always
     ports:
