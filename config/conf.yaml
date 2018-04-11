@@ -9,7 +9,7 @@ mysql:
   maxOpenConns: 1000
   connMaxLifetime: 5
 redis:
-  host: goreids
+  host: goredis
   port: 6379
   password:
 jwt:
