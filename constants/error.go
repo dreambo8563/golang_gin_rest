@@ -6,22 +6,37 @@ type WrappedError struct {
 	Msg  string `json:"msg"`
 }
 
+type errKey string
+
+// errKeys name
+var (
+	EmptyErr             errKey = "empty"
+	ParamsErr            errKey = "ParamsErr"
+	UserNotExistErr      errKey = "UserNotExist"
+	TokenGenFailedErr    errKey = "TokenGenFailed"
+	UserCreatedFailedErr errKey = "UserCreatedFailed"
+	TokenExpireErr       errKey = "TokenExpire"
+)
+
 // ErrorEnums contains all the error type will response
-var ErrorEnums = map[string]WrappedError{
-	"empty": WrappedError{},
-	"ParamsErr": WrappedError{
+var ErrorEnums map[errKey]WrappedError
+
+func init() {
+	ErrorEnums = make(map[errKey]WrappedError)
+	ErrorEnums[EmptyErr] = WrappedError{}
+	ErrorEnums[ParamsErr] = WrappedError{
 		-100, "incorrect params",
-	},
-	"UserNotExist": WrappedError{
+	}
+	ErrorEnums[UserNotExistErr] = WrappedError{
 		-101, "User not exist",
-	},
-	"TokenGenFailed": WrappedError{
+	}
+	ErrorEnums[TokenGenFailedErr] = WrappedError{
 		-102, "Token generated failed",
-	},
-	"UserCreatedFailed": WrappedError{
+	}
+	ErrorEnums[UserCreatedFailedErr] = WrappedError{
 		-103, "User record created failed",
-	},
-	"TokenExpire": WrappedError{
+	}
+	ErrorEnums[TokenExpireErr] = WrappedError{
 		-104, "Token expired, please refresh",
-	},
+	}
 }

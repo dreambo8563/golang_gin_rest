@@ -1,0 +1,5 @@
+package wechat
+
+func main() {
+
+}

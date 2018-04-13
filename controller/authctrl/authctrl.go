@@ -29,14 +29,14 @@ func Login(c *gin.Context) {
 	// bind check
 	if err != nil {
 		log.Errorln(err.Error())
-		response.Response(c, nil, constants.ErrorEnums["ParamsErr"], 0)
+		response.Response(c, nil, constants.ErrorEnums[constants.ParamsErr], 0)
 		return
 	}
 	// check user exist
 	user, exist := model.FindByInfo(user.Phone, user.Password)
 	if !exist {
 		log.Infoln("user not exist")
-		response.Response(c, nil, constants.ErrorEnums["UserNotExist"], 0)
+		response.Response(c, nil, constants.ErrorEnums[constants.UserNotExistErr], 0)
 		return
 	}
 	// generate token by userid
@@ -44,12 +44,12 @@ func Login(c *gin.Context) {
 	// log.Infoln(token, err.Error())
 	if err != nil {
 		log.Infoln("TokenGenFailed")
-		response.Response(c, nil, constants.ErrorEnums["TokenGenFailed"], 0)
+		response.Response(c, nil, constants.ErrorEnums[constants.TokenGenFailedErr], 0)
 		return
 	}
 	jwt.SaveToken(c, token)
 	log.Infoln("token", token)
-	response.Response(c, tokenResp{token}, constants.ErrorEnums["empty"], http.StatusOK)
+	response.Response(c, tokenResp{token}, constants.ErrorEnums[constants.EmptyErr], http.StatusOK)
 }
 
 // Register will create the user record
@@ -59,23 +59,23 @@ func Register(c *gin.Context) {
 	// bind check
 	if err != nil {
 		log.Errorln(err.Error())
-		response.Response(c, nil, constants.ErrorEnums["ParamsErr"], 0)
+		response.Response(c, nil, constants.ErrorEnums[constants.ParamsErr], 0)
 		return
 	}
 	err = user.New()
 	if err != nil {
-		response.Response(c, nil, constants.ErrorEnums["UserCreatedFailed"], 0)
+		response.Response(c, nil, constants.ErrorEnums[constants.UserCreatedFailedErr], 0)
 		return
 	}
 	// generate token by userid
 	token, err := jwt.New(fmt.Sprint(user.ID))
 	// log.Infoln(token, err.Error())
 	if err != nil {
-		response.Response(c, nil, constants.ErrorEnums["TokenGenFailed"], 0)
+		response.Response(c, nil, constants.ErrorEnums[constants.TokenGenFailedErr], 0)
 		return
 	}
 	jwt.SaveToken(c, token)
-	response.Response(c, tokenResp{token}, constants.ErrorEnums["empty"], http.StatusOK)
+	response.Response(c, tokenResp{token}, constants.ErrorEnums[constants.EmptyErr], http.StatusOK)
 }
 
 // Refresh will parse the expired token and return a fresh one
@@ -90,11 +90,11 @@ func Refresh(c *gin.Context) {
 		userID := claims["userID"].(string)
 		token, err = jwt.New(userID)
 		if err != nil {
-			response.Response(c, nil, constants.ErrorEnums["TokenGenFailed"], 0)
+			response.Response(c, nil, constants.ErrorEnums[constants.TokenGenFailedErr], 0)
 			return
 		}
 		jwt.SaveToken(c, token)
-		response.Response(c, tokenResp{token}, constants.ErrorEnums["empty"], http.StatusOK)
+		response.Response(c, tokenResp{token}, constants.ErrorEnums[constants.EmptyErr], http.StatusOK)
 		return
 	}
 	c.AbortWithStatus(http.StatusUnauthorized)
@@ -109,5 +109,5 @@ func Test(c *gin.Context) {
 		log.Panic("AuthMiddleware fail")
 		return
 	}
-	response.Response(c, nil, constants.ErrorEnums["empty"], http.StatusOK)
+	response.Response(c, nil, constants.ErrorEnums[constants.EmptyErr], http.StatusOK)
 }
