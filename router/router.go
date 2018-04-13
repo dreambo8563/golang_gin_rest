@@ -4,6 +4,7 @@ import (
 	"path"
 	"path/filepath"
 
+	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,6 +13,7 @@ func Init() {
 	// default config include the recover and logger middleware
 	router := gin.Default()
 	// swaggerGroup(router)
+	router.Use(gzip.Gzip(gzip.DefaultCompression))
 	v1Prefix := "/api/v1"
 	todoGroup(router, v1Prefix)
 	authGroup(router, v1Prefix)

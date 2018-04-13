@@ -15,6 +15,12 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/gin-contrib/gzip"
+  packages = ["."]
+  revision = "4fbfcc6122759afed2efbc762c4c41164a403951"
+
+[[projects]]
+  branch = "master"
   name = "github.com/gin-contrib/sse"
   packages = ["."]
   revision = "22d885f9ecc78bf4ee5d72b937e4bbcdc58e8cae"
@@ -219,6 +225,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ad2632dfbe4a504e9fdad9547aa2f1e626adc4985a68c0f5648fd4a3c9c3ad08"
+  inputs-digest = "3a244ddc5446eb2966d72d8227b92ab840181a58935c4f6699577549f0442cd5"
   solver-name = "gps-cdcl"
   solver-version = 1
