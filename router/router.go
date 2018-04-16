@@ -25,12 +25,13 @@ func Init() {
 	authGroup(router, v1Prefix)
 	// SPA fallback router
 	router.NoRoute(func(c *gin.Context) {
-		dir, file := path.Split(c.Request.RequestURI)
+		_, file := path.Split(c.Request.RequestURI)
 		ext := filepath.Ext(file)
 		if file == "" || ext == "" {
 			c.File("./public/index.html")
 		} else {
-			c.File("./public" + path.Join(dir, file))
+			router.Static("/", "./public")
+			// c.File("./public" + path.Join(dir, strings.Split(file, "?")[0]))
 		}
 
 	})
