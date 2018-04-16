@@ -1,12 +1,10 @@
 package router
 
 import (
-	"log"
 	"path"
 	"path/filepath"
 
 	"github.com/gin-contrib/gzip"
-	"github.com/gin-gonic/autotls"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,6 +14,7 @@ func Init() {
 	router := gin.Default()
 	// swaggerGroup(router)
 	router.Use(gzip.Gzip(gzip.DefaultCompression))
+	router.Static("/.well-known/acme-challenge", "./.well-known/acme-challenge")
 	v1Prefix := "/api/v1"
 	todoGroup(router, v1Prefix)
 	authGroup(router, v1Prefix)
@@ -30,7 +29,7 @@ func Init() {
 		}
 
 	})
-	// router.Run()
-	log.Fatal(autotls.Run(router, "dreambo8563.tech"))
+	router.Run(":80")
+	// log.Fatal(autotls.Run(router, "dreambo8563.tech"))
 	// router.RunTLS(":8080", "./cert/server.pem", "./cert/server.key")
 }

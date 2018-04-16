@@ -6,6 +6,7 @@ services:
     restart: always
     ports:
       - "443:443"
+      - "80:80"
     working_dir: /go/src/vincent.com/golangginrest
     volumes:
       - ./:/go/src/vincent.com/golangginrest
