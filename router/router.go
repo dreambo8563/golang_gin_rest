@@ -24,14 +24,15 @@ func Init() {
 	todoGroup(router, v1Prefix)
 	authGroup(router, v1Prefix)
 	// SPA fallback router
+	// router.Static("/", "./public")
 	router.NoRoute(func(c *gin.Context) {
-		_, file := path.Split(c.Request.RequestURI)
+		dir, file := path.Split(c.Request.RequestURI)
 		ext := filepath.Ext(file)
 		if file == "" || ext == "" {
 			c.File("./public/index.html")
 		} else {
-			router.Static("/", "./public")
-			// c.File("./public" + path.Join(dir, strings.Split(file, "?")[0]))
+			// strings.Split(file, "?")
+			c.File("./public" + path.Join(dir, file))
 		}
 
 	})
