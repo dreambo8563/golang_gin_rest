@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 )
 
 // Init - router collection and controller dispatch
@@ -31,5 +32,12 @@ func Init() {
 	})
 	// router.Run(":80")
 	// log.Fatal(autotls.Run(router, "dreambo8563.tech"))
-	router.RunTLS(":443", "./cert/fullchain.pem", "./cert/privkey.pem")
+	env := viper.Get("GO_ENV")
+	if env == "production" {
+		gin.SetMode(gin.ReleaseMode)
+		router.RunTLS(":443", "./cert/fullchain.pem", "./cert/privkey.key")
+	} else {
+		router.RunTLS(":8080", "./cert/server.pem", "./cert/server.key")
+	}
+
 }
