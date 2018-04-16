@@ -11,7 +11,11 @@ import (
 
 // Init - router collection and controller dispatch
 func Init() {
+	env := viper.Get("GO_ENV")
 	// default config include the recover and logger middleware
+	if env == "production" {
+		gin.SetMode(gin.ReleaseMode)
+	}
 	router := gin.Default()
 	// swaggerGroup(router)
 	router.Use(gzip.Gzip(gzip.DefaultCompression))
@@ -32,10 +36,9 @@ func Init() {
 	})
 	// router.Run(":80")
 	// log.Fatal(autotls.Run(router, "dreambo8563.tech"))
-	env := viper.Get("GO_ENV")
+
 	if env == "production" {
-		gin.SetMode(gin.ReleaseMode)
-		router.RunTLS(":443", "./cert/fullchain.pem", "./cert/privkey.key")
+		router.RunTLS(":443", "./cert/fullchain.pem", "./cert/privkey.pem")
 	} else {
 		router.RunTLS(":8080", "./cert/server.pem", "./cert/server.key")
 	}
