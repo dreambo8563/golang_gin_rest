@@ -29,7 +29,7 @@ func Init() {
 		}
 
 	})
-	router.Run(":80")
+	// router.Run(":80")
 	// log.Fatal(autotls.Run(router, "dreambo8563.tech"))
-	// router.RunTLS(":8080", "./cert/server.pem", "./cert/server.key")
+	router.RunTLS(":443", "./cert/fullchain.pem", "./cert/privkey.pem")
 }
