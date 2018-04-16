@@ -1,10 +1,12 @@
 package router
 
 import (
+	"log"
 	"path"
 	"path/filepath"
 
 	"github.com/gin-contrib/gzip"
+	"github.com/gin-gonic/autotls"
 	"github.com/gin-gonic/gin"
 )
 
@@ -29,6 +31,6 @@ func Init() {
 
 	})
 	// router.Run()
-
-	router.RunTLS(":8080", "./cert/server.pem", "./cert/server.key")
+	log.Fatal(autotls.Run(router, "dreambo8563.tech"))
+	// router.RunTLS(":8080", "./cert/server.pem", "./cert/server.key")
 }

@@ -5,7 +5,7 @@ services:
     image: mygo
     restart: always
     ports:
-      - "8080:8080"
+      - "443:443"
     working_dir: /go/src/vincent.com/golangginrest
     volumes:
       - ./:/go/src/vincent.com/golangginrest

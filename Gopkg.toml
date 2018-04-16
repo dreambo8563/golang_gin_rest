@@ -57,3 +57,7 @@
 [[constraint]]
   branch = "master"
   name = "github.com/gin-contrib/gzip"
+
+[[constraint]]
+  name = "github.com/gin-gonic/autotls"
+  version = "0.0.1"
