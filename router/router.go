@@ -40,9 +40,9 @@ func Init() {
 	// log.Fatal(autotls.Run(router, "dreambo8563.tech"))
 
 	if env == "production" {
-		router.RunTLS(":443", "./cert/fullchain.pem", "./cert/privkey.pem")
+		router.RunTLS(":3010", "./cert/fullchain.pem", "./cert/privkey.pem")
 	} else {
-		router.RunTLS(":8080", "./cert/server.pem", "./cert/server.key")
+		router.RunTLS(":3000", "./cert/server.pem", "./cert/server.key")
 	}
 
 }
